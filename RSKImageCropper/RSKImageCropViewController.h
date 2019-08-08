@@ -33,9 +33,9 @@ NS_ASSUME_NONNULL_BEGIN
  Types of supported crop modes.
  */
 typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
-    RSKImageCropModeCircle,
     RSKImageCropModeSquare,
-    RSKImageCropModeCustom
+    RSKImageCropModePortrait,
+    RSKImageCropModeOriginal
 };
 
 @interface RSKImageCropViewController : UIViewController
@@ -133,6 +133,11 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 @property (assign, nonatomic) RSKImageCropMode cropMode;
 
 /**
+ `RSKImageCropModePortrait` size
+ */
++(CGSize)portraitSize;
+
+/**
  The crop rectangle.
  
  @discussion The value is calculated at run time.
@@ -209,6 +214,8 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  @return YES if the interface orientation is portrait, otherwise returns NO.
  */
 - (BOOL)isPortraitInterfaceOrientation;
+
+- (UIImage *)croppedImage;
 
 /// -------------------------------------
 /// @name Accessing the Layout Attributes
@@ -325,27 +332,27 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  */
 @protocol RSKImageCropViewControllerDelegate <NSObject>
 
+@optional
+
 /**
  Tells the delegate that crop image has been canceled.
  */
 - (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller;
 
 /**
- Tells the delegate that the original image has been cropped. Additionally provides a crop rect and a rotation angle used to produce image.
- */
-- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect rotationAngle:(CGFloat)rotationAngle;
-
-@optional
-
-/**
- Tells the delegate that the image has been displayed.
- */
-- (void)imageCropViewControllerDidDisplayImage:(RSKImageCropViewController *)controller;
-
-/**
- Tells the delegate that the original image will be cropped.
+     Tells the delegate that the original image will be cropped.
  */
 - (void)imageCropViewController:(RSKImageCropViewController *)controller willCropImage:(UIImage *)originalImage;
+
+/**
+ Tells the delegate that the original image has been cropped. Additionally provides a crop rect used to produce image.
+ */
+- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect;
+
+/**
+  Tells the delegate that the original image has been cropped. Additionally provides a crop rect and a rotation angle used to produce image.
+ */
+- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect rotationAngle:(CGFloat)rotationAngle;
 
 @end
 
