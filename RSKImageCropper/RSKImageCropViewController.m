@@ -69,7 +69,7 @@ static const CGFloat kK = 0;
 #pragma mark - Class methods
 
 +(CGSize)portraitSize {
-    return CGSizeMake(720, 1280);
+    return CGSizeMake(720, 1080);
 }
 
 #pragma mark - Lifecycle
